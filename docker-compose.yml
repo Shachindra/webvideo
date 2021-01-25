@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  webvideo:
+    image: shachindra/webvideo:v1.0
+    container_name: WebVideo
+    environment: 
+      LOAD_CONFIG_FILE: "TRUE"
+      PORT: 9070
+    ports:
+      - "9070:9070"
