@@ -14,10 +14,9 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-wireguard/
-
 .DS_Store
 .idea
+.env
 
 # Editor directories and files
 .vscode

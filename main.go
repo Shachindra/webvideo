@@ -13,8 +13,7 @@ var HostName string
 
 // StandardFields ...
 var StandardFields = log.Fields{
-	"hostname": "MyPC",
-	"appname":  "WebVideo",
+	"hostname": "MySystem",
 }
 
 func init() {
@@ -25,27 +24,25 @@ func init() {
 	// Get Hostname for updating Log StandardFields
 	HostName, err := os.Hostname()
 	if err != nil {
-		log.WithFields(StandardFields).Infof("Error in getting the Hostname: %v", err)
+		log.Infof("Error in getting the Hostname: %v", err)
+	} else {
+		StandardFields = log.Fields{
+			"hostname": HostName,
+		}
 	}
 	// Check if loading environment variables from .env file is required
 	if os.Getenv("LOAD_CONFIG_FILE") == "" {
-		log.WithFields(StandardFields).Infof("util.StandardFields")
 		// Load environment variables from .env file
 		err = godotenv.Load()
 		if err != nil {
-			log.WithFields(StandardFields).Infof("Error in reading the coonfig file: %v", err)
+			log.WithFields(StandardFields).Infof("Error in reading the config file: %v", err)
 		}
-	}
-
-	StandardFields = log.Fields{
-		"hostname": HostName,
-		"appname":  os.Getenv("APPNAME"),
 	}
 }
 
 func main() {
 	log.WithFields(StandardFields).Infof("Starting WebVideo Server at Port: %s", os.Getenv("PORT"))
-	http.Handle("/", http.FileServer(http.Dir("./")))
+	http.Handle("/", http.FileServer(http.Dir("./ui/")))
 
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	if err != nil {

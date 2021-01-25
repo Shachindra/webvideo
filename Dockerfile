@@ -12,5 +12,7 @@ COPY --from=build-app /app/webvideo .
 COPY --from=build-app /app/ui ./ui
 RUN chmod +x ./webvideo
 RUN apk update && apk add --no-cache bash openresolv bind-tools gettext
-RUN ./webvideo
-EXPOSE 9070
+ENV PORT $PORT
+ENV LOAD_CONFIG_FILE $LOAD_CONFIG_FILE
+CMD [ "./webvideo" ]
+EXPOSE ${PORT}
